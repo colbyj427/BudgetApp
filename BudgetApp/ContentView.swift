@@ -16,17 +16,24 @@ struct ContentView: View {
     @FetchRequest(fetchRequest: BudgetCategory.all) private var budgetCategoryResults: FetchedResults<BudgetCategory>
     @State private var isPresented: Bool = false
     
+    let onDelete: (BudgetCategory) -> Void
+    
     var body: some View {
         NavigationStack {
-            List(budgetCategoryResults) { budgetCategory in
-                NavigationLink(value: budgetCategory) {
-                    HStack{
-                        Text(budgetCategory.name ?? "").onAppear {
-                            print("ContentView appeared")
+            List{
+                ForEach(budgetCategoryResults) { budgetCategory in
+                    NavigationLink(value: budgetCategory) {
+                        HStack{
+                            Text(budgetCategory.name ?? "").onAppear {
+                                print("ContentView appeared")
+                            }
+                            Spacer()
+                            Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
                         }
-                        Spacer()
-                        Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
                     }
+                }.onDelete { index in
+                    guard let index = index.first else { return }
+                    onDelete(budgetCategoryResults[index])
                 }
             }
             .navigationDestination(for: BudgetCategory.self , destination: { budgetCategory
@@ -49,7 +56,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            ContentView().environment(\.managedObjectContext, CoreDataManager.shared.persistentContainer.viewContext)
+            ContentView(onDelete: { _ in }).environment(\.managedObjectContext, CoreDataManager.shared.persistentContainer.viewContext)
         }
     }
 }

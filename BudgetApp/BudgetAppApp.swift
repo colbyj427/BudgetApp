@@ -17,7 +17,7 @@ struct BudgetAppApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                ContentView()
+                ContentView(onDelete: { _ in })
                     .navigationDestination(for: Route.self, destination: { route in
                         switch route {
                         case .detail(let budgetCategory):

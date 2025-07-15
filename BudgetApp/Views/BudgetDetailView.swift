@@ -60,12 +60,19 @@ struct BudgetDetailView: View {
                 }.disabled(!isFormValid)
                 Spacer()
             }
-            
-//            New
-            Text(budgetCategory.transactionsTotal as NSNumber, formatter: NumberFormatter.currency)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .bold()
-//            New
+            HStack {
+                VStack {
+                    Text("Available:").frame(maxWidth: .infinity, alignment: .center).bold()
+                    Text(budgetCategory.amount - budgetCategory.transactionsTotal as NSNumber, formatter:NumberFormatter.currency)
+                        .frame(maxWidth: .infinity, alignment: .center).bold()
+                }
+                VStack {
+                    Text("Spent: ").frame(maxWidth: .infinity, alignment: .center).bold()
+                    Text(budgetCategory.transactionsTotal as NSNumber, formatter: NumberFormatter.currency)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .bold()
+                }
+            }
             TransactionListView(transactions: budgetCategory.transactionArray, onDelete: { transaction in
                 removeTransaction(transaction)
             })
