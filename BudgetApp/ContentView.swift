@@ -23,12 +23,20 @@ struct ContentView: View {
             List{
                 ForEach(budgetCategoryResults) { budgetCategory in
                     NavigationLink(value: budgetCategory) {
-                        HStack{
-                            Text(budgetCategory.name ?? "").onAppear {
-                                print("ContentView appeared")
+                        VStack {
+                            HStack{
+                                Text(budgetCategory.name ?? "").onAppear {
+                                    print("ContentView appeared")
+                                }
+                                Spacer()
+                                Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
                             }
-                            Spacer()
-                            Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
+                            HStack{
+                                Text("Remaining")
+                                Spacer()
+                                Text(budgetCategory.remaining as NSNumber, formatter: NumberFormatter.currency)
+//                                Text((budgetCategory.amount - budgetCategory.transactionsTotal) as NSNumber, formatter.currency)
+                            }
                         }
                     }
                 }.onDelete { index in

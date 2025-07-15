@@ -20,6 +20,10 @@ public class BudgetCategory: NSManagedObject {
         }
     }
     
+    var remaining: Double {
+        return self.amount - transactionsTotal
+    }
+    
     var transactionArray: [Transaction] {
         guard let transactions = transactions else {
             return []

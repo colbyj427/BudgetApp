@@ -45,8 +45,10 @@ struct BudgetDetailView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack {
+                Text("Total: ")
+                Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
+            }.frame(maxWidth: .infinity, alignment: .leading).bold()
             Spacer()
             
             Form {
