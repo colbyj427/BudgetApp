@@ -10,6 +10,7 @@ import SwiftUI
 struct TransactionListView: View {
     
     let transactions: [Transaction]
+    @Binding var expandedID: UUID?
     let onDelete: (Transaction) -> Void
     
     var body: some View {

@@ -14,6 +14,7 @@ struct BudgetDetailView: View {
     @ObservedObject var budgetCategory: BudgetCategory
     @State private var title: String = ""
     @State private var amount: String = ""
+    @State private var expandedTransactionID: UUID? = nil
     
     private var isFormValid: Bool {
         !title.isEmpty && !amount.isEmpty && amount.isNumeric && amount.isGreaterThan(0)
@@ -24,6 +25,7 @@ struct BudgetDetailView: View {
         let transaction = Transaction(context: viewContext)
         transaction.title = title
         transaction.amount = Double(amount)!
+        transaction.date = Date()
         
         print("budgetCategory objectID: \(budgetCategory.objectID)")
         print("isDeleted: \(budgetCategory.isDeleted)")
