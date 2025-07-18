@@ -1,3 +1,8 @@
+# Overview
+A budget application written with Swift language.
+The app allows you to create categories and add transactions to those categories,
+tracking total costs and remaining funds.
+
 # Features
 Add a budget category with an amount of money.
 
