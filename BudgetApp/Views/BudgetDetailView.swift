@@ -66,6 +66,7 @@ struct BudgetDetailView: View {
                 }.disabled(!isFormValid)
                 Spacer()
             }
+            Spacer()
             HStack {
                 VStack {
                     Text("Available:").frame(maxWidth: .infinity, alignment: .center).bold()
