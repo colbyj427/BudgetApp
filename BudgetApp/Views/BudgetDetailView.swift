@@ -53,7 +53,11 @@ struct BudgetDetailView: View {
                 Text("Total: ")
                 Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
                 Spacer()
-                NavigationLink("Settings", destination: CategorySettingsView())
+                NavigationLink(destination: CategorySettingsView()) {
+                    Image(systemName: "gearshape")
+                        .imageScale(.large)
+                        .foregroundColor(.blue)
+                }
             }.frame(maxWidth: .infinity, alignment: .leading).bold()
             Spacer()
             
