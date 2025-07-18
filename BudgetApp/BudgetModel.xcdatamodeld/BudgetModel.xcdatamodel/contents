@@ -10,6 +10,7 @@
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="budgetCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BudgetCategory" inverseName="transactions" inverseEntity="BudgetCategory"/>
     </entity>

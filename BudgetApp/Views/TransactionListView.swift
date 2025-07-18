@@ -6,30 +6,47 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct TransactionListView: View {
     
     let transactions: [Transaction]
+    @Binding var expandedID: NSManagedObjectID?
     let onDelete: (Transaction) -> Void
     
     var body: some View {
         List {
-            ForEach(transactions) { transaction in
-                HStack {
-                    Text(transaction.title ?? "No title")
-                    Spacer()
-                    Text(transaction.amount as NSNumber, formatter: NumberFormatter.currency)
-                }
-            }.onDelete { index in
+            ForEach(transactions, id: \.objectID) { transaction in
+                TransactionRowView(
+                    transaction: transaction,
+                    isExpanded: expandedID == transaction.objectID,
+                    onTap: {
+                        withAnimation {
+                            if expandedID == transaction.objectID {
+                                expandedID = nil
+                            } else {
+                                expandedID = transaction.objectID
+                            }
+                        }
+                    }
+                )
+            }
+            .onDelete { index in
                 guard let index = index.first else { return }
                 onDelete(transactions[index])
             }
+            //            .onDelete(perform: deleteItems)
         }
+        //    private func deleteItems(at offsets: IndexSet) {
+        //        for index in offsets {
+        //            onDelete(transactions[index])
+        //        }
+        //    }
     }
 }
 
-struct TransactionListView_Previews: PreviewProvider {
-    static var previews: some View {
-        TransactionListView(transactions: [], onDelete: { _ in })
-    }
-}
+//struct TransactionListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TransactionListView(transactions: [], expandedID: $expandedID, onDelete: { _ in })
+//    }
+//}
