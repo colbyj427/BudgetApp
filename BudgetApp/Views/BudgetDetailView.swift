@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct BudgetDetailView: View {
     
@@ -14,7 +15,8 @@ struct BudgetDetailView: View {
     @ObservedObject var budgetCategory: BudgetCategory
     @State private var title: String = ""
     @State private var amount: String = ""
-    @State private var expandedTransactionID: UUID? = nil
+    @State private var expandedTransactionID: NSManagedObjectID?
+
     
     private var isFormValid: Bool {
         !title.isEmpty && !amount.isEmpty && amount.isNumeric && amount.isGreaterThan(0)
@@ -77,7 +79,9 @@ struct BudgetDetailView: View {
                         .bold()
                 }
             }
-            TransactionListView(transactions: budgetCategory.transactionArray, onDelete: { transaction in
+            TransactionListView(transactions: budgetCategory.transactionArray,
+                expandedID: $expandedTransactionID,
+                onDelete: { transaction in
                 removeTransaction(transaction)
             })
             
