@@ -52,6 +52,8 @@ struct BudgetDetailView: View {
             HStack {
                 Text("Total: ")
                 Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
+                Spacer()
+                NavigationLink("Settings", destination: CategorySettingsView())
             }.frame(maxWidth: .infinity, alignment: .leading).bold()
             Spacer()
             
