@@ -1,0 +1,25 @@
+# Xcode build and workspace
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdata
+
+# SwiftPM
+.build/
+.swiftpm/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/
+
+# Misc
+*.DS_Store
+*.log
+
+# Core Data
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
