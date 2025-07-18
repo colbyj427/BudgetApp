@@ -23,3 +23,6 @@ Carthage/
 *.sqlite-shm
 *.sqlite-wal
 
+# Ignore user-specific Xcode state
+*.xcuserstate
+
