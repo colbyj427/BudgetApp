@@ -11,12 +11,23 @@ import CoreData
 //View is the view model in SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
-//    New
     @FetchRequest(fetchRequest: BudgetCategory.all) private var budgetCategoryResults: FetchedResults<BudgetCategory>
-    @State private var isPresented: Bool = false
+    @State private var showingSheet: Bool = false
+    @State private var addFundsIsPresented: Bool = false
+    @State private var newCategoryIsPresented: Bool = false
     
     let onDelete: (BudgetCategory) -> Void
+    
+    func presentNewCategory() {
+        showingSheet = true
+        newCategoryIsPresented = true
+        addFundsIsPresented = false
+    }
+    func presentAddFunds() {
+        showingSheet = true
+        newCategoryIsPresented = false
+        addFundsIsPresented = true
+    }
     
     var body: some View {
         NavigationStack {
@@ -38,7 +49,6 @@ struct ContentView: View {
                                 Text("Remaining")
                                 Spacer()
                                 Text(budgetCategory.remaining as NSNumber, formatter: NumberFormatter.currency)
-//                                Text((budgetCategory.amount - budgetCategory.transactionsTotal) as NSNumber, formatter.currency)
                             }
                         }
                     }
@@ -53,13 +63,22 @@ struct ContentView: View {
                 })
 //        This displays the categories when fetch is working
         }.toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add new Category") {
-                        isPresented = true
-                    }
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Add Funds") {
+                    presentAddFunds()
                 }
-            }.sheet(isPresented: $isPresented) {
-                AddBudgetCategoryView()
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Add new Category") {
+                    presentNewCategory()
+                }
+            }
+            }.sheet(isPresented: $showingSheet) {
+                if addFundsIsPresented {
+                    AddFundsView()
+                } else if newCategoryIsPresented {
+                    AddBudgetCategoryView()
+                }
             }
         }
     }
