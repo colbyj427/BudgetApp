@@ -35,18 +35,6 @@ struct TransactionListView: View {
                 guard let index = index.first else { return }
                 onDelete(transactions[index])
             }
-            //            .onDelete(perform: deleteItems)
         }
-        //    private func deleteItems(at offsets: IndexSet) {
-        //        for index in offsets {
-        //            onDelete(transactions[index])
-        //        }
-        //    }
     }
 }
-
-//struct TransactionListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TransactionListView(transactions: [], expandedID: $expandedID, onDelete: { _ in })
-//    }
-//}
