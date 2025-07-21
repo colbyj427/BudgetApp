@@ -20,6 +20,10 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
+            HStack {
+                Text("Total")
+                Text("Remaining")
+            }
             List{
                 ForEach(budgetCategoryResults) { budgetCategory in
                     NavigationLink(value: budgetCategory) {
