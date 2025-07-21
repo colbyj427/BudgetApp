@@ -36,6 +36,9 @@ struct BudgetDetailView: View {
         budgetCategory.addToTransactions(transaction)
         try? viewContext.save()
         print("Saved transaction")
+        
+        title = ""
+        amount = ""
     }
     
     private func removeTransaction(_ transaction: Transaction) {
@@ -86,7 +89,9 @@ struct BudgetDetailView: View {
                         .bold()
                 }
             }
-            TransactionListView(transactions: budgetCategory.transactionArray,
+            TransactionListView(transactions: budgetCategory.transactionArray.sorted {
+                ($0.date ?? .distantPast) > ($1.date ?? .distantPast)
+            },
                 expandedID: $expandedTransactionID,
                 onDelete: { transaction in
                 removeTransaction(transaction)
