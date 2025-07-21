@@ -26,3 +26,6 @@ Carthage/
 # Ignore user-specific Xcode state
 *.xcuserstate
 
+*.xcuserdatad/
+*.xcuserstate
+
