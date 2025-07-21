@@ -6,6 +6,8 @@ tracking total costs and remaining funds.
 # Features
 Add a budget category with an amount of money.
 
+Edit the name and amount of a category.
+
 Enter a transaction name and amount in a category.
 
 Tap a transaction to show the date it was entered.
