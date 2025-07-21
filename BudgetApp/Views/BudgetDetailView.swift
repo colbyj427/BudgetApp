@@ -36,6 +36,9 @@ struct BudgetDetailView: View {
         budgetCategory.addToTransactions(transaction)
         try? viewContext.save()
         print("Saved transaction")
+        
+        title = ""
+        amount = ""
     }
     
     private func removeTransaction(_ transaction: Transaction) {
@@ -52,13 +55,19 @@ struct BudgetDetailView: View {
             HStack {
                 Text("Total: ")
                 Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
+                Spacer()
+                NavigationLink(destination: CategorySettingsView(budgetCategory: budgetCategory)) {
+                    Image(systemName: "gearshape")
+                        .imageScale(.large)
+                        .foregroundColor(.blue)
+                }
             }.frame(maxWidth: .infinity, alignment: .leading).bold()
-            Spacer()
             
             Form {
                 TextField("Title", text: $title)
                 TextField("Amount", text: $amount)
             }
+            .frame(maxHeight: 150)
             HStack {
                 Spacer()
                 Button("Add Transaction"){
@@ -80,7 +89,9 @@ struct BudgetDetailView: View {
                         .bold()
                 }
             }
-            TransactionListView(transactions: budgetCategory.transactionArray,
+            TransactionListView(transactions: budgetCategory.transactionArray.sorted {
+                ($0.date ?? .distantPast) > ($1.date ?? .distantPast)
+            },
                 expandedID: $expandedTransactionID,
                 onDelete: { transaction in
                 removeTransaction(transaction)

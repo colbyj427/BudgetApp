@@ -26,7 +26,6 @@ struct ContentView: View {
                         VStack {
                             HStack{
                                 Text(budgetCategory.name ?? "").onAppear {
-                                    print("ContentView appeared")
                                 }
                                 Spacer()
                                 Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
