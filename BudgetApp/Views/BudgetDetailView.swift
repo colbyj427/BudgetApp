@@ -53,18 +53,18 @@ struct BudgetDetailView: View {
                 Text("Total: ")
                 Text(budgetCategory.amount as NSNumber, formatter: NumberFormatter.currency)
                 Spacer()
-                NavigationLink(destination: CategorySettingsView()) {
+                NavigationLink(destination: CategorySettingsView(budgetCategory: budgetCategory)) {
                     Image(systemName: "gearshape")
                         .imageScale(.large)
                         .foregroundColor(.blue)
                 }
             }.frame(maxWidth: .infinity, alignment: .leading).bold()
-            Spacer()
             
             Form {
                 TextField("Title", text: $title)
                 TextField("Amount", text: $amount)
             }
+            .frame(maxHeight: 150)
             HStack {
                 Spacer()
                 Button("Add Transaction"){
