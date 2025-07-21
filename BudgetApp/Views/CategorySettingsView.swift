@@ -18,7 +18,9 @@ struct CategorySettingsView: View {
     init(budgetCategory: BudgetCategory) {
         self.budgetCategory = budgetCategory
         _name = State(initialValue: budgetCategory.name ?? "")
-        _amount = State(initialValue: String(budgetCategory.amount))
+        let formatter = NumberFormatter.currency
+        let formattedAmount = formatter.string(from: NSNumber(value: budgetCategory.amount)) ?? ""
+        _amount = State(initialValue: formattedAmount)
     }
 
     var body: some View {
