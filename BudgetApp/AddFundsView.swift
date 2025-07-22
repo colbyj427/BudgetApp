@@ -17,13 +17,12 @@ struct AddFundsView: View {
         !name.isEmpty && !amount.isEmpty && amount.isNumeric && amount.isGreaterThan(0)
     }
     
-    private func saveBudgetCategory() {
+    private func saveFunds() {
         print("Saving new funds.")
-        let budgetCategory = BudgetCategory(context: viewContext)
-        budgetCategory.name = name
-        budgetCategory.amount = Double(amount)!
+        let total = TotalFunds(context: viewContext)
+        total.amount = total.amount + Double(amount)!
         do {
-            print("\(budgetCategory)")
+            print("\(total)")
             try viewContext.save()
             dismiss()
         } catch {
@@ -40,7 +39,7 @@ struct AddFundsView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         if isFormValid {
-                            saveBudgetCategory()
+                            saveFunds()
                         }
                     }.disabled(!isFormValid)
                 }
