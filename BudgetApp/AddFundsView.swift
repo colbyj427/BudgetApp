@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct AddFundsView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -14,19 +15,23 @@ struct AddFundsView: View {
     @State private var amount: String = ""
     
     var isFormValid: Bool {
-        !name.isEmpty && !amount.isEmpty && amount.isNumeric && amount.isGreaterThan(0)
+        !name.isEmpty && !amount.isEmpty && amount.isNumeric
     }
     
     private func saveFunds() {
         print("Saving new funds.")
-        let total = TotalFunds(context: viewContext)
-        total.amount = total.amount + Double(amount)!
+        // Fetch existing TotalFunds or create a new one
+        let request = NSFetchRequest<TotalFunds>(entityName: "TotalFunds")
         do {
-            print("\(total)")
+            let results = try viewContext.fetch(request)
+            let total = results.first ?? TotalFunds(context: viewContext) // use first or create new
+            
+            total.amount += Double(amount) ?? 0.0
+            
             try viewContext.save()
             dismiss()
         } catch {
-            print(error)
+            print("Failed to fetch or save:", error)
         }
     }
     

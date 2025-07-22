@@ -8,7 +8,7 @@
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="TotalFunds" representedClassName="TotalFunds" syncable="YES" codeGenerationType="class">
+    <entity name="TotalFunds" representedClassName="TotalFunds" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">

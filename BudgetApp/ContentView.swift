@@ -13,7 +13,14 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(fetchRequest: BudgetCategory.all) private var budgetCategoryResults: FetchedResults<BudgetCategory>
     @State private var showingSheet: Bool = false
-    @FetchRequest(entity: TotalFunds.entity(), sortDescriptors: []) var totalFunds: FetchedResults<TotalFunds>
+//    @FetchRequest(entity: TotalFunds.entity(), sortDescriptors: []) var totalFunds: FetchedResults<TotalFunds>
+//    @FetchRequest(fetchRequest: TotalFunds.fetchRequest()) var totalFunds: FetchedResults<TotalFunds>
+    @FetchRequest(fetchRequest: TotalFunds.all) var totalFunds: FetchedResults<TotalFunds>
+//    @FetchRequest(
+//        entity: TotalFunds.entity(),
+//        sortDescriptors: [NSSortDescriptor(keyPath: \TotalFunds.amount, ascending: true)]
+//    ) var totalFunds: FetchedResults<TotalFunds>
+
     @State private var addFundsIsPresented: Bool = false
     @State private var newCategoryIsPresented: Bool = false
     var remaining: Double = 0.0
