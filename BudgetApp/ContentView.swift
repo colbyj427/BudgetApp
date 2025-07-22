@@ -13,10 +13,24 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(fetchRequest: BudgetCategory.all) private var budgetCategoryResults: FetchedResults<BudgetCategory>
     @State private var showingSheet: Bool = false
+    @FetchRequest(entity: TotalFunds.entity(), sortDescriptors: []) var totalFunds: FetchedResults<TotalFunds>
     @State private var addFundsIsPresented: Bool = false
     @State private var newCategoryIsPresented: Bool = false
+    var remaining: Double = 0.0
+    
+    var total: Double {
+        totalFunds.first?.amount ?? 0.0
+    }
     
     let onDelete: (BudgetCategory) -> Void
+    
+    mutating func calcRemaining() {
+        var t = 0.0
+        budgetCategoryResults.forEach { category in
+            t -= (category.amount - category.remaining)
+        }
+        remaining = t
+    }
     
     func presentNewCategory() {
         showingSheet = true
@@ -32,8 +46,11 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             HStack {
-                Text("Total")
-                Text("Remaining")
+                Text("Total:")
+                Text(total as NSNumber, formatter: NumberFormatter.currency)
+                Text("Remaining:")
+                Text(remaining as NSNumber, formatter: NumberFormatter.currency)
+                
             }
             List{
                 ForEach(budgetCategoryResults) { budgetCategory in
