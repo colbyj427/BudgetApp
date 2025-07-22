@@ -12,3 +12,5 @@ Enter a transaction name and amount in a category.
 
 Tap a transaction to show the date it was entered.
 
+Add funds such as a paycheck to a total.
+

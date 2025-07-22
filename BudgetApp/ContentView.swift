@@ -11,15 +11,54 @@ import CoreData
 //View is the view model in SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
-//    New
     @FetchRequest(fetchRequest: BudgetCategory.all) private var budgetCategoryResults: FetchedResults<BudgetCategory>
-    @State private var isPresented: Bool = false
+    @State private var showingSheet: Bool = false
+//    @FetchRequest(entity: TotalFunds.entity(), sortDescriptors: []) var totalFunds: FetchedResults<TotalFunds>
+//    @FetchRequest(fetchRequest: TotalFunds.fetchRequest()) var totalFunds: FetchedResults<TotalFunds>
+    @FetchRequest(fetchRequest: TotalFunds.all) var totalFunds: FetchedResults<TotalFunds>
+//    @FetchRequest(
+//        entity: TotalFunds.entity(),
+//        sortDescriptors: [NSSortDescriptor(keyPath: \TotalFunds.amount, ascending: true)]
+//    ) var totalFunds: FetchedResults<TotalFunds>
+
+    @State private var addFundsIsPresented: Bool = false
+    @State private var newCategoryIsPresented: Bool = false
+    var remaining: Double = 0.0
+    
+    var total: Double {
+        totalFunds.first?.amount ?? 0.0
+    }
     
     let onDelete: (BudgetCategory) -> Void
     
+    mutating func calcRemaining() {
+        var t = 0.0
+        budgetCategoryResults.forEach { category in
+            t -= (category.amount - category.remaining)
+        }
+        remaining = t
+    }
+    
+    func presentNewCategory() {
+        showingSheet = true
+        newCategoryIsPresented = true
+        addFundsIsPresented = false
+    }
+    func presentAddFunds() {
+        showingSheet = true
+        newCategoryIsPresented = false
+        addFundsIsPresented = true
+    }
+    
     var body: some View {
         NavigationStack {
+            HStack {
+                Text("Total:")
+                Text(total as NSNumber, formatter: NumberFormatter.currency)
+                Text("Remaining:")
+                Text(remaining as NSNumber, formatter: NumberFormatter.currency)
+                
+            }
             List{
                 ForEach(budgetCategoryResults) { budgetCategory in
                     NavigationLink(value: budgetCategory) {
@@ -34,7 +73,6 @@ struct ContentView: View {
                                 Text("Remaining")
                                 Spacer()
                                 Text(budgetCategory.remaining as NSNumber, formatter: NumberFormatter.currency)
-//                                Text((budgetCategory.amount - budgetCategory.transactionsTotal) as NSNumber, formatter.currency)
                             }
                         }
                     }
@@ -49,13 +87,22 @@ struct ContentView: View {
                 })
 //        This displays the categories when fetch is working
         }.toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add new Category") {
-                        isPresented = true
-                    }
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Add Funds") {
+                    presentAddFunds()
                 }
-            }.sheet(isPresented: $isPresented) {
-                AddBudgetCategoryView()
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Add new Category") {
+                    presentNewCategory()
+                }
+            }
+            }.sheet(isPresented: $showingSheet) {
+                if addFundsIsPresented {
+                    AddFundsView()
+                } else if newCategoryIsPresented {
+                    AddBudgetCategoryView()
+                }
             }
         }
     }
