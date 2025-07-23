@@ -50,6 +50,8 @@ struct AddFundsView: View {
                 }
             }
         }
+        .hideKeyboardOnTap()
+        .scrollDismissesKeyboard(.interactively)
     }
 }
 

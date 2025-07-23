@@ -66,6 +66,7 @@ struct BudgetDetailView: View {
             Form {
                 TextField("Title", text: $title)
                 TextField("Amount", text: $amount)
+                    .keyboardType(.decimalPad)
             }
             .frame(maxHeight: 150)
             HStack {
@@ -98,6 +99,8 @@ struct BudgetDetailView: View {
             })
             
         }.padding()
+        .hideKeyboardOnTap()
+        .scrollDismissesKeyboard(.interactively)
     }
 }
 

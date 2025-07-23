@@ -47,6 +47,8 @@ struct AddBudgetCategoryView: View {
                 }
             }
         }
+        .hideKeyboardOnTap()
+        .scrollDismissesKeyboard(.interactively)
     }
 }
 

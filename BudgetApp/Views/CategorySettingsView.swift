@@ -38,6 +38,8 @@ struct CategorySettingsView: View {
             .disabled(!isValid)
         }
         .navigationTitle("Settings")
+        .hideKeyboardOnTap()
+        .scrollDismissesKeyboard(.interactively)
     }
 
     private var isValid: Bool {

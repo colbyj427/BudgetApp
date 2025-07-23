@@ -8,21 +8,27 @@
 import SwiftUI
 import CoreData
 
+enum ActiveSheet: Identifiable {
+    case addFunds, newCategory
+    
+    var id: Int {
+        switch self {
+        case .addFunds: return 0
+        case .newCategory: return 1
+        }
+    }
+}
+
 //View is the view model in SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(fetchRequest: BudgetCategory.all) private var budgetCategoryResults: FetchedResults<BudgetCategory>
-    @State private var showingSheet: Bool = false
-//    @FetchRequest(entity: TotalFunds.entity(), sortDescriptors: []) var totalFunds: FetchedResults<TotalFunds>
-//    @FetchRequest(fetchRequest: TotalFunds.fetchRequest()) var totalFunds: FetchedResults<TotalFunds>
     @FetchRequest(fetchRequest: TotalFunds.all) var totalFunds: FetchedResults<TotalFunds>
-//    @FetchRequest(
-//        entity: TotalFunds.entity(),
-//        sortDescriptors: [NSSortDescriptor(keyPath: \TotalFunds.amount, ascending: true)]
-//    ) var totalFunds: FetchedResults<TotalFunds>
 
-    @State private var addFundsIsPresented: Bool = false
-    @State private var newCategoryIsPresented: Bool = false
+//    @State private var showingSheet: Bool = false
+//    @State private var addFundsIsPresented: Bool = false
+//    @State private var newCategoryIsPresented: Bool = false
+    @State private var activeSheet: ActiveSheet?
     var remaining: Double = 0.0
     
     var total: Double {
@@ -40,14 +46,16 @@ struct ContentView: View {
     }
     
     func presentNewCategory() {
-        showingSheet = true
-        newCategoryIsPresented = true
-        addFundsIsPresented = false
+//        newCategoryIsPresented = true
+//        addFundsIsPresented = false
+//        showingSheet = true
+        activeSheet = .newCategory
     }
     func presentAddFunds() {
-        showingSheet = true
-        newCategoryIsPresented = false
-        addFundsIsPresented = true
+//        newCategoryIsPresented = false
+//        addFundsIsPresented = true
+//        showingSheet = true
+        activeSheet = .addFunds
     }
     
     var body: some View {
@@ -97,13 +105,14 @@ struct ContentView: View {
                     presentNewCategory()
                 }
             }
-            }.sheet(isPresented: $showingSheet) {
-                if addFundsIsPresented {
-                    AddFundsView()
-                } else if newCategoryIsPresented {
-                    AddBudgetCategoryView()
-                }
+        }.sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .addFunds:
+                AddFundsView()
+            case .newCategory:
+                AddBudgetCategoryView()
             }
+        }
         }
     }
 
