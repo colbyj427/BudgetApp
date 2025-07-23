@@ -13,4 +13,11 @@ extension NumberFormatter {
         formatter.numberStyle = .currency
         return formatter
     }
+    static var twoDecimalPlaces: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }
 }
